@@ -1,0 +1,50 @@
+html {
+  box-sizing: border-box;
+
+  /* 박스모델(content, padding, border, margin) 설정:
+     content-box는 영역의 크기를 지정할 때 패딩과 테두리를 제외한 
+     content 크기만을 계산합니다. */
+   
+  /* border-box는 영역의 크기를 지정할 때 패딩과 테두리를 포함한 
+     content 크기를 계산합니다. */
+     
+  /* 일반적으로 사람들은 컨텐츠 크기를 지정할 때 패딩과 테두리도 포함하여
+     생각하기 때문에 border-box를 주로 사용합니다. */
+}
+
+
+body{
+ display: flex;
+ align-items: center;
+ /* 수직중앙정렬*/
+ justify-content: center;
+ /* 수평중앙정렬*/
+ min-height: 100vh;
+ /*뷰포트의 높이를 100%를 최소높이로 지정*/
+ background-color: white;
+
+
+}
+
+/* display:flex를 먹인 태그는 부모 태그가 되는거고 
+ div태그는 자식태그가 됩니다.*/
+
+
+
+#wrapper {
+  width: 420px;
+  box-shadow: 0px 4px 14px rgba(0,0,0,0.2);
+
+ /* box-shadow의 역핧은 영역의 그림자를 설정한다
+  0px는 수평방향의 그림자를 생성
+  4px는 수직방향으로 그림자를 생성
+  14px는 그림자의 블러값(그림자의 흐림도)를 적용
+  rgba(0,0,0,0.2)는 그림자 색깔*/
+
+}
+
+
+h2{
+  text-align: center;
+ /*  margin-top: 20px;*/
+}
