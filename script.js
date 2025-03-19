@@ -47,5 +47,27 @@ if(isVaild == false){
 
 };
 
-//알림이 사용이 되는것까지는 설정을 했는데, 언제 사용이 되어야하나, 조건을 설정안했음음
+//알림이 사용이 되는것까지는 설정을 했는데, 언제 사용이 되어야하나, 조건을 설정안했음
+//입력필드가 비어있는지 확인하는 함수기능을 만듭니다.
+const checkEmptyInput = (input) => {
+  if (input.value.trim() === '') {  // input.value로 수정
+    // 인풋 입력칸에 입력한 문자열 중 띄어쓰기를 없애는 기능
+    updateHelperText(input, '값을 입력해주세요', false);
+  }
+};
 
+//이메일 형식이 올바른지 확인하는 함수
+//이메일 주소가 규칙에 맞게 작성되었는지 확인하는 것!
+const validEmailFormat = (input)=>{
+
+  const strongPattern =  /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/;
+  if(strongPattern.test(password.value.trim()) == true){
+//password.value = > 태그안에 입력한 입력 값{
+  updateHelperText(input,"",true);
+  return true;
+}else{
+  updateHelperText(input,"유효한 이메일 주소를 입력부탁드립니다.",false);
+}
+  //정규식 = > 마법,이메일에 골뱅이가 안들어갔다거나, com.co.kr이런식으로 표현이 안될때
+  //검사해서 true혹은 false를 리턴하게 할 수 있다.=> 이메일 정규식식
+}
