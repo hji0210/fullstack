@@ -71,3 +71,43 @@ const validEmailFormat = (input)=>{
   //정규식 = > 마법,이메일에 골뱅이가 안들어갔다거나, com.co.kr이런식으로 표현이 안될때
   //검사해서 true혹은 false를 리턴하게 할 수 있다.=> 이메일 정규식식
 }
+
+
+// 비밀번호 강도를 확인하는 함수
+// 비밀번호가 충분히 강한지 검증하는 것은 마치 학생의 답안이 올바른지 확인하는 것과 비슷합니다.
+const checkPasswordStrength = (password) => {
+  const strongPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+  if (strongPattern.test(password.value)) {
+      updateHelperText(password, "비밀번호 강도: 강함", true);
+      return true;
+  } else {
+      updateHelperText(password, "비밀번호는 8자 이상이어야 하며, 대문자, 소문자, 숫자, 특수문자를 포함해야 합니다.", false);
+      return false;
+  }
+};
+
+// 비밀번호와 확인 비밀번호가 일치하는지 확인하는 함수
+// 마치 두 개의 열쇠가 일치하는지 확인하는 것과 비슷합니다.
+const validatePasswordMatch =(passwordInput,confirmInput) =>{
+   if(passwordInput.value != confirmInput.value){
+      updateHelperText(confirmInput,"비밀번호가 일치하지 않습니다.",false);
+      return false;
+   }else{
+    updateHelperText(confirmInput,"true");
+   }
+   }
+
+// 전화번호가 올바른 형식인지 확인하는 함수
+const validatePhoneNumber = (input)=>{
+  const phonePattern = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i; 
+   if(phonePattern.test(input.value.trim()){
+     updateHelperText(input,"",true);
+      return true;
+    } else{
+      updateHelperText.Text(input,"유효한 전화번호를 입력해주세요.(예:010-1234-1234")
+      return false;
+     }
+  }
+
+  
+  
