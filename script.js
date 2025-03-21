@@ -100,7 +100,7 @@ const validatePasswordMatch =(passwordInput,confirmInput) =>{
 // 전화번호가 올바른 형식인지 확인하는 함수
 const validatePhoneNumber = (input)=>{
   const phonePattern = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i; 
-   if(phonePattern.test(input.value.trim()){
+   if(phonePattern.test(input.value.trim())){
      updateHelperText(input,"",true);
       return true;
     } else{
