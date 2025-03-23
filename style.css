@@ -1,0 +1,68 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  /* 테두리를 포함한 모든 태그 요소들의 크기를 계산합니다. */
+}
+
+
+body{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  color: #2c3e50;
+  background-color: #f0f8ff;
+  animation: fadein 1.5s;
+
+}
+
+
+@keyframes fadein  {
+  from {
+    opacity: 0%;
+  }
+  to {
+    opacity: 100%;
+  }
+}
+
+
+
+.container {
+display: block;
+text-align: center;
+}
+
+h1{
+  margin-bottom: ();
+  font-size:300%;
+  color: #34495e;
+
+}
+
+.calculator{
+  display: inline-block;
+}
+
+
+input{
+  direction: ltr;
+   /* 입력방향을 왼쪽에서 오른쪽으로 설정 */
+
+  background-color: #ffffff;
+  width: 80vw;
+  font-size: 3rem;
+  color:#2c3e50;
+  border: 2px solid #bdc3c7;
+  border-radius:0.5rem ;
+     /* 도형의 모서리의 둥근정도를 나타낸다. */
+}
+
+
+
+
+table{
+  margin:0 auto;
+     /* 주로 display 속성이 block인 값을 가진 태그요소들을 가운데로 옮기고 싶을 때 이용합니다 */
+}
