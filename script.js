@@ -1,148 +1,49 @@
-// 'wrapperBox'라는 변수에 ID가 'wrapper'인 요소를 가져옵니다. 
-// 마치 특정 서랍을 열기 위해 서랍 이름표를 확인하고 그 서랍을 찾는 것과 같습니다.
-const wrapperBox = document.getElementById("wrapper");
+//DOM 요소 연결을 시켜줘야한다.
+const screen = document.querySelector("#screen");
+const buttons = document.querySelectorAll("button");
+//document.querySelector();=>태그한개만 가지고 와서 변수에 담아준다.
+//document.querySelectorAll();=>태그 여러개를 리스트형태로 담아서 변수에 담아준다.
 
-// 'inputFieldGroup'라는 변수에 클래스명이 'inputGroup'인 모든 요소를 가져옵니다. 
-// 이는 같은 이름표가 붙은 여러 서랍을 한 번에 모두 가져오는 것과 비슷합니다.
-const inputFieldGroup = document.getElementsByClassName("inputGroup");
+let currentInput = "";
+//아무것도 없는 빈캆 설정
 
-const allInputs = document.querySelector("input");
-const userNickname = document.getElementById("nickname");
-const userEmail = document.getElementById("email");
-const userPassword = document.getElementById("userPassword");
-const confirmPassword = document.getElementById("confirmPassword");
-const userPhone = document.getElementById("phone");
-const registrationForm = document.getElementById("registrationForm");
 
-// 입력 필드의 도움말 메시지를 업데이트하는 함수
-const updateHelperText = (input, message, isValid) => {
-  const inputGroup = input.parentElement;
-  // 한 개의 input 태그의 부모 태그에 접근하는 것 
-  // 예시로 input 태그를 userEmail로 접근하였다고 하면, 아래 태그들의 최상위 태그를 의미한다.
-  // <div class="inputGroup">
-  //   <label for="userEmail">이메일 주소</label>
-  //   <input type="email" id="email" class="emailInput">
-  //   <span class="helperText">알림</span>
-  // </div>
-  const helperText = inputGroup.getElementsByClassName("helperText")[0];
+const reOperator = /^(\d+|\*\*|[+\-*/])$/; // 사칙연산자(+,-,*,/)를 구별하게 해주는 정규표현식
+const reNumber = /[0-9]/g; // 숫자를 구별해주는 정규표현식
 
-  if (isValid) {
-    inputGroup.classList.remove("invalid");
-    inputGroup.classList.add("valid");
-    helperText.style.visibility = "hidden";
-  } else {
-    inputGroup.classList.remove("valid");
-    inputGroup.classList.add("invalid");
-    helperText.style.visibility = "visible"; // 오류 메시지를 보이도록 수정
-    helperText.innerText = message;
-  }
-};
+//input태그 화면에 숫자 또는 연산자를 추가하는 함수
+function appendToScreen(value){
+  screen.value += value;
+ //  screen.value => DOM연결해준 screen
+ // value => 인자값을 입력해주면 붙는것
+}
 
-// 입력 필드가 비어있는지 확인하는 함수
-const checkEmptyInput = (input) => {
-  if (input.value.trim() === "") {
-    // 입력이 비어 있으면 "값을 입력해주세요." 메시지를 보여줍니다.
-    updateHelperText(input, "값을 입력해주세요.", false);
-    return false;
-  } else {
-    // 입력이 있으면 도움말을 지웁니다.
-    updateHelperText(input, "", true);
-    return true;
-  }
-};
+//화면 초기화 함수
+function clearScreen(){
+  screen.value = "";
+  //빈 인풋값
+}
 
-// 비밀번호 강도를 확인하는 함수
-const checkPasswordStrength = (password) => {
-  const strongPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
-  if (strongPattern.test(password.value)) {
-    updateHelperText(password, "비밀번호 강도: 강함", true);
-    return true;
-  } else {
-    updateHelperText(password, "비밀번호는 8자 이상이어야 하며, 대문자, 소문자, 숫자, 특수문자를 포함해야 합니다.", false);
-    return false;
-  }
-};
-
-// 비밀번호와 확인 비밀번호가 일치하는지 확인하는 함수
-const validatePasswordMatch = (passwordInput, confirmInput) => {
-  if (passwordInput.value !== confirmInput.value) {
-    updateHelperText(confirmInput, "비밀번호가 일치하지 않습니다.", false);
-    return false;
-  } else {
-    updateHelperText(confirmInput, "", true);
-    return true;
-  }
-};
-
-// 이메일 형식이 올바른지 확인하는 함수
-const validateEmailFormat = (input) => {
-  const emailPattern = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-  if (emailPattern.test(input.value.trim())) {
-    updateHelperText(input, "", true);
-    return true;
-  } else {
-    updateHelperText(input, "유효한 이메일 주소를 입력해주세요.", false);
-    return false;
-  }
-};
-
-// 전화번호가 올바른 형식인지 확인하는 함수
-const validatePhoneNumber = (input) => {
-  const phonePattern = /^01[0-9]{1}-[0-9]{3,4}-[0-9]{4}$/;
-  if (phonePattern.test(input.value.trim())) {
-    updateHelperText(input, "", true);
-    return true;
-  } else {
-    updateHelperText(input, "유효한 전화번호를 입력해주세요. (예: 010-1234-5678)", false);
-    return false;
-  }
-};
-
-// 폼 제출 시 입력 필드 유효성을 검사하는 함수
-const validateForm = () => {
-  const isNicknameValid = checkEmptyInput(userNickname);
-  const isEmailValid = validateEmailFormat(userEmail);
-  const isPasswordStrong = checkPasswordStrength(userPassword);
-  const isPasswordMatch = validatePasswordMatch(userPassword, confirmPassword);
-  const isPhoneValid = validatePhoneNumber(userPhone);
-
-  // 모든 검사가 통과해야 제출 가능
-  return isNicknameValid && isEmailValid && isPasswordStrong && isPasswordMatch && isPhoneValid;
-};
-
-// 폼 제출 이벤트 리스너 추가
-registrationForm.addEventListener('submit', (e) => {
-  e.preventDefault(); // 기본 폼 제출 동작(새로고침) 방지
-
-  if (validateForm()) {
-    console.log("모든 필드가 유효합니다. 즉 사용이 가능합니다.");
-  } else {
-    console.log("위 필드 중 일부가 에러가 발생합니다. 유효성 검사 실패");
-  }
-});
-
-//각 input태그 입력을 눌렀을 떄 테두리 색깔이나 알림이 뜨게 하고 싶다.
-// 모든 input 요소를 대상으로 실시간 유효성 검사를 수행하는 이벤트 리스너 추가
-// 반복적으로 각 입력 필드를 확인하는 것과 같습니다.
-document.querySelectorAll("input").forEach(input => {
-  input.addEventListener('input', () => {
-      switch (input.id) {
-          case 'nickname':
-              checkEmptyInput(input);
-              break;
-          case 'email':
-              validateEmailFormat(input);
-              break;
-          case 'userPassword':
-              checkPasswordStrength(input);
-              break;
-          case 'confirmPassword':
-              validatePasswordMatch(userPassword, confirmPassword);
-              // validatePasswordMatch(input[2].id, input[3].id);
-              break;
-          case 'phone':
-              validatePhoneNumber(input);
-              break;
-      }
-  });
-});
+//연산 수행 함수
+function calcuate(operator, numbers){
+  const[num1, num2] = numbers.map(Number);
+  //number에다가 배열로 된 데이터들을 넣을거임(숫자와 연산자)
+  //map->numbers라는 기능을 필터링해서 numbers를 다시 정리해줌
+  //numbers.map(Number); =>numbers안에 있는 배열데이터들을 전부 숫자화 시켜달라는 뜻
+  //지금은 문자로 되어있음
+}
+    switch(operator){
+      case "+":
+        return num1 + num2;
+      case "-":
+        return num1 - num2;
+      case "*":
+        return num1 * num2;
+      case "/":
+        return num2 !== 0 ? num1 / num2 : "Error"; 
+       //삼항조건식
+       //만약 num2를 0이 아닌게 true이면면 num1/num2를 해주고
+       // num2가 0이 아닌게 false면 Error를 출력해준다.
+      default:
+        return "";
+    }
